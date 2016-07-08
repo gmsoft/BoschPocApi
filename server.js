@@ -19,10 +19,11 @@ app.use(bodyParser.json());
 
 var UserController     = require('./controllers/UserController');
 var TallerController     = require('./controllers/TallerController');
-
+var SolicitudServicioController = require('./controllers/SolicitudServicioController');
 //Agrego controllers
 UserController.init(router);
 TallerController.init(router);
+SolicitudServicioController.init(router);
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
