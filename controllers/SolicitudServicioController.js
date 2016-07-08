@@ -20,7 +20,13 @@ function init (router){
 		})
 
 		.get(cors(),function(req, res) {
-			SolicitudServicioModel.find().populate('user').exec(function (err, sds) {
+			var query= {};
+			if(req.query.status){
+				query.solicitudcotizacion = { $exists: req.query.status=="send" };
+				
+			}
+
+			SolicitudServicioModel.find(query).populate('user').exec(function (err, sds) {
 				ErrorHelper.errorHandler(err, res);
 				
 				res.json(sds);
