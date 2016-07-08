@@ -3,11 +3,12 @@ var mongoose   = require('mongoose');
 var bodyParser = require('body-parser');
 
 var app        = express();                 // define our app using express
+var cors = require('cors');
 var port       = process.env.PORT || 3000;        // set our port
 var router     = express.Router();              // get an instance of the express Router
 var db         = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-mongoose.connect('mongodb://boschdemo.eastus2.cloudapp.azure.com/bosch'); // connect to our database
+mongoose.connect('mongodb://localhost/bosch'); // connect to our database
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -25,6 +26,6 @@ router.use(function(req, res, next) {
 });
 
 // all of our routes will be prefixed with /api
-//app.use('/api', router);
+app.use('/', router);
 app.listen(port);
 console.log('Start on port ' + port);
