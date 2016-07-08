@@ -11,7 +11,8 @@ var db         = mongoose.connection;
 
 app.use(morgan('dev'));
 db.on('error', console.error.bind(console, 'connection error:'));
-mongoose.connect('mongodb://localhost/bosch'); // connect to our database
+mongoose.connect('mongodb://demobosch.eastus2.cloudapp.azure.com/bosch');
+//mongoose.connect('mongodb://localhost/bosch'); // connect to our database
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
