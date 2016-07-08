@@ -22,7 +22,11 @@ function init (router){
 		.get(cors(),function(req, res) {
 			var query= {};
 			if(req.query.status){
-				query.solicitudcotizacion = { $exists: req.query.status=="send" };
+				if(req.query.status=="send"){
+					query.solicitudcotizacion = {$not: {$size: 0}};	
+				}else{
+					query.solicitudcotizacion = [];
+				}
 				
 			}
 
