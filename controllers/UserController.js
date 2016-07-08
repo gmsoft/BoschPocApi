@@ -3,13 +3,13 @@ var cors = require('cors');
 
 function init (router){
 	router.route('/users')
-		.post(function(req, res) {
 
+		.post(cors(),function(req, res) {
 			var user = new UserModel();      // create a new instance of the user model
 			user.name = req.body.name;  // set the users name (comes from the request)
 		  user.nick_name = req.body.nick_name;
 			// save the user and check for errors
-			user.save(cors(),function(err, result) {
+			user.save(function(err, result) {
 				if (err)
 					res.send(err);
 				res.json(result);
@@ -21,15 +21,31 @@ function init (router){
 					res.send(err);
 				res.json(users);
 			})
-		});
+		})
+
+		.options(cors(),function(req, res) {
+				console.log("OPTIONS");
+				res.json("");
+			});
+
 	router.route('/users/:id')
+
 		.get(cors(),function(req, res) {
 			UserModel.findById(req.params.id, function (err, user) {
 				if (err)
 					res.send(err);
 				res.json(user);
 			})
-		}).put(cors(),function(req, res) {
+		})
+
+		.delete(cors(),function(req, res) {
+			UserModel.findByIdAndRemove(req.params.id, function (err, user) {
+				if (err)
+					res.send(err);
+				res.json(user);
+			})
+		})
+		.put(cors(),function(req, res) {
 			UserModel.findById(req.params.id, function (err, user) {
 			  if (err) res.send(err);
 				user.name = req.body.name;  // set the users name (comes from the request)
@@ -44,7 +60,9 @@ function init (router){
 			    res.json(user);
 			  });
 			})
-		}).options(cors(),function(req, res) {
+		})
+
+		.options(cors(),function(req, res) {
 				console.log("OPTIONS");
 				res.json("");
 			});

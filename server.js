@@ -1,12 +1,15 @@
 var express    = require('express');        // call express
 var mongoose   = require('mongoose');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 
 var app        = express();                 // define our app using express
 var cors = require('cors');
 var port       = process.env.PORT || 3000;        // set our port
 var router     = express.Router();              // get an instance of the express Router
 var db         = mongoose.connection;
+
+app.use(morgan('dev'));
 db.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connect('mongodb://localhost/bosch'); // connect to our database
 
