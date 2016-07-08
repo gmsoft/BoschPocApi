@@ -3,7 +3,7 @@ var mongoose   = require('mongoose');
 var bodyParser = require('body-parser');
 
 var app        = express();                 // define our app using express
-var port       = process.env.PORT || 8080;        // set our port
+var port       = process.env.PORT || 3000;        // set our port
 var router     = express.Router();              // get an instance of the express Router
 var db         = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -25,6 +25,6 @@ router.use(function(req, res, next) {
 });
 
 // all of our routes will be prefixed with /api
-app.use('/api', router);
+//app.use('/api', router);
 app.listen(port);
 console.log('Start on port ' + port);
