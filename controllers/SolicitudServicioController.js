@@ -22,6 +22,7 @@ function init (router){
 		.get(cors(),function(req, res) {
 			SolicitudServicioModel.find().populate('user').exec(function (err, sds) {
 				ErrorHelper.errorHandler(err, res);
+				
 				res.json(sds);
 			})
 		})
