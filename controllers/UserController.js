@@ -1,5 +1,6 @@
 var UserModel          = require('../models/UserModel');
 var cors = require('cors');
+var ErrorHelper = require('../utils/ErrorHelper');
 
 function init (router){
 	router.route('/users')
@@ -10,15 +11,13 @@ function init (router){
 		  user.nick_name = req.body.nick_name;
 			// save the user and check for errors
 			user.save(function(err, result) {
-				if (err)
-					res.send(err);
+				ErrorHelper.errorHandler(err, res);
 				res.json(result);
 			});
 
 		}).get(cors(),function(req, res) {
 			UserModel.find(function (err, users) {
-				if (err)
-					res.send(err);
+				ErrorHelper.errorHandler(err, res);
 				res.json(users);
 			})
 		})
@@ -32,16 +31,14 @@ function init (router){
 
 		.get(cors(),function(req, res) {
 			UserModel.findById(req.params.id, function (err, user) {
-				if (err)
-					res.send(err);
+				ErrorHelper.errorHandler(err, res);
 				res.json(user);
 			})
 		})
 
 		.delete(cors(),function(req, res) {
 			UserModel.findByIdAndRemove(req.params.id, function (err, user) {
-				if (err)
-					res.send(err);
+				ErrorHelper.errorHandler(err, res);
 				res.json(user);
 			})
 		})
@@ -52,11 +49,7 @@ function init (router){
 			  user.nick_name = req.body.nick_name;
 				console.log(user);
 			  user.save(function (err) {
-			    if (err){
-						console.log(err);
-						res.json(err);
-
-					}
+			    ErrorHelper.errorHandler(err, res);
 			    res.json(user);
 			  });
 			})
