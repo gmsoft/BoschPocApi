@@ -16,6 +16,7 @@ function init (router){
 			});
 
 		}).get(cors(),function(req, res) {
+			
 			UserModel.find(function (err, users) {
 				ErrorHelper.errorHandler(err, res);
 				res.json(users);
