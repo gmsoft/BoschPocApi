@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var UserController     = require('./controllers/UserController');
+var PerfilController     = require('./controllers/PerfilController');
 var TallerController     = require('./controllers/TallerController');
 var SolicitudServicioController = require('./controllers/SolicitudServicioController');
 var SolicitudCotizacionController = require('./controllers/SolicitudCotizacionController');
@@ -30,22 +31,28 @@ SessionController.init(router);//lo defino antes del middleware
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
-    
-    if(req.headers.authorization==undefined){
-    	console.log("sin header authorization");
-    	res.json(403, "forbidden 1");
-    }else{
 
-    SessionModel.find({token: req.headers.authorization}).exec(function(err, session ){
-    	ErrorHelper.errorHandler(err, res);
-    	console.log(session);
-    	if(session.length>0){
-    		next();
+    if(req.method!="OPTIONS"){
+      console.log(req.headers);
+      if(req.headers.authorization==undefined){
+      	console.log("sin header authorization");
+        res.json(403, "forbidden 1");
+      }else{
 
-    	}else{
-    		res.json(403, "forbidden 2");
-    	}
-    });}
+      SessionModel.find({token: req.headers.authorization}).exec(function(err, session ){
+      	ErrorHelper.errorHandler(err, res);
+      	console.log(session);
+      	if(session.length>0){
+      		next();
+
+      	}else{
+      		res.json(403, "forbidden 2");
+      	}
+      });
+    }
+  }else{
+    next();
+  }
      // make sure we go to the next routes and don't stop here
 });
 //Agrego controllers
@@ -53,6 +60,7 @@ UserController.init(router);
 TallerController.init(router);
 SolicitudServicioController.init(router);
 SolicitudCotizacionController.init(router);
+PerfilController.init(router);
 
 // all of our routes will be prefixed with /api
 app.use('/', router);
