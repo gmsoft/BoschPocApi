@@ -9,10 +9,10 @@ function init (router){
 		.get(  function(req, res){
 			SolicitudCotizacionModel.find().populate('taller').exec(function(err, sdc){
 				ErrorHelper.errorHandler(err, res);
-				
+
 				res.json(sdc);
 			})
-		});	
+		});
 
 
 	router.route('/solicitudservicio/:id/solicitudcotizacion')
@@ -22,9 +22,10 @@ function init (router){
 				sdc.solicitudservicio =  req.params.id;
 		    	sdc.estado = req.body.estado;
 		  		sdc.taller = req.body.taller._id;
+					console.log(req.body);
 				// save the taller and check for errors
 				sdc.save(function(err, result) {
-				
+
 				ErrorHelper.errorHandler(err, res);
 				SolicitudServicioModel.findById(req.params.id, function (err, sds) {
 					ErrorHelper.errorHandler(err, res);
@@ -32,7 +33,7 @@ function init (router){
 					sds.save(function(err, result){
 						ErrorHelper.errorHandler(err, res);
 						res.json(sds);
-					}); 
+					});
 				});
 			});
 		})

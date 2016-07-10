@@ -35,7 +35,7 @@ app.all("*", cors());
 router.use(function(req, res, next) {
 
     if(req.method!="OPTIONS"){
-      console.log(req.headers);
+//      console.log(req.headers);
       if(req.headers.authorization==undefined){
       	console.log("sin header authorization");
         res.json(403, "forbidden 1");

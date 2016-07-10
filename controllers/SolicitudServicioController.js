@@ -6,6 +6,7 @@ function init (router){
 	router.route('/solicitudservicio')
 
 		.post( function(req, res) {
+			console.log(req.body);
 			var sds = new SolicitudServicioModel();      // create a new instance of the taller model
 				sds.fecha_creacion = Date.now(),
 				sds.vehiculo       = req.body.vehiculo;
