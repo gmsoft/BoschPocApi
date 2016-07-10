@@ -6,7 +6,7 @@ var ErrorHelper = require('../utils/ErrorHelper');
 function init (router){
 
 	router.route('/solicitudcotizacion')
-		.get(cors(), function(req, res){
+		.get(  function(req, res){
 			SolicitudCotizacionModel.find().populate('taller').exec(function(err, sdc){
 				ErrorHelper.errorHandler(err, res);
 				
@@ -17,7 +17,7 @@ function init (router){
 
 	router.route('/solicitudservicio/:id/solicitudcotizacion')
 		//crea una solicitud de cotizacion
-		.post(cors(), function(req, res){
+		.post(  function(req, res){
 				var sdc = new SolicitudCotizacionModel();
 				sdc.solicitudservicio =  req.params.id;
 		    	sdc.estado = req.body.estado;
@@ -37,14 +37,14 @@ function init (router){
 			});
 		})
 
-		.get(cors(),function(req, res) {
+		.get( function(req, res) {
 			SolicitudCotizacionModel.findById(req.params.id).exec( function (err, sds) {
 				ErrorHelper.errorHandler(err, res);
 				res.json(sds);
 			})
 		})
 
-		.options(cors(),function(req, res) {
+		.options( function(req, res) {
 				console.log("OPTIONS");
 				res.json("");
 			});

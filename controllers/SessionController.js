@@ -6,17 +6,19 @@ var ErrorHelper = require('../utils/ErrorHelper');
 
 function init (router){
 	router.route('/session')
-	.get(cors(), function(req, res){
+	.get(  function(req, res){
 		SessionModel.find().exec(function(err, session){
 			ErrorHelper.errorHandler(err, session);
 			res.json(session);
 		})
 	})
-	.post(cors(), function(req, res){
+	.post(  function(req, res){
 		nick_name = req.body.nick_name;
 		password = req.body.password;
 		console.log(req.body);
+		//debugger;
 		UserModel.find({$and: [{nick_name: nick_name}, {password: password}]}).exec(function(err, user){
+			console.log("Encontre el usuario");
 			console.log(user);
 			ErrorHelper.errorHandler(err, res);
 			if(user.length>0){
@@ -26,8 +28,10 @@ function init (router){
 				sessionModel.user = user[0]._id;
 
 				sessionModel.save(function(err, session){
+					console.log("guarde la session");
 					ErrorHelper.errorHandler(err, res);
 					SessionModel.findById(session._id).populate("user").exec(function(error, session_true){
+							console.log("busque el usuario");
 							ErrorHelper.errorHandler(err, res);
 							res.json(session_true);
 					});
@@ -37,7 +41,7 @@ function init (router){
 			}
 		});
 	})
-	.options(cors(),function(req, res) {
+	.options( function(req, res) {
 			console.log("OPTIONS");
 			res.json("");
 		});

@@ -5,7 +5,7 @@ var cors = require('cors');
 function init (router){
 	router.route('/perfil')
 
-		.post(cors(),function(req, res) {
+		.post( function(req, res) {
 			var perfil = new PerfilModel();      // create a new instance of the taller model
 			perfil.name = req.body.name;  // set the tallers name (comes from the request)
 
@@ -16,25 +16,25 @@ function init (router){
 			});
 
 		})
-		.get(cors(),function(req, res) {
+		.get( function(req, res) {
 			PerfilModel.find(function (err, tallers) {
 				ErrorHelper.errorHandler(err, res);
 				res.json(tallers);
 			})
 		})
-		.options(cors(),function(req, res) {
+		.options( function(req, res) {
 				console.log("OPTIONS");
 				res.json("");
 			});
 
 	 router.route('/perfil/:id')
-	 	.get(cors(),function(req, res) {
+	 	.get( function(req, res) {
  			PerfilModel.findById(req.params.id, function (err, perfil) {
  				ErrorHelper.errorHandler(err, res);;
  				res.json(perfil);
  			})
  		})
-		.options(cors(),function(req, res) {
+		.options( function(req, res) {
 				console.log("OPTIONS");
 				res.json("");
 			});

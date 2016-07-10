@@ -2,8 +2,9 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var SolicitudServicioSchema   = new Schema({
-    name: String,
-    description: String,
+    fecha_creacion: Date,
+    vehiculo: String,
+    fecha_deseada: Date,
     user:  [{ type: Schema.Types.ObjectId, ref: 'User' }],
     solicitudcotizacion: [{ type: Schema.Types.ObjectId, ref: 'SolicitudCotizacion' }]
 },  { collection: 'SolicitudServicios' });
