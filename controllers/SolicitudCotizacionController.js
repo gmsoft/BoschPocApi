@@ -20,7 +20,11 @@ function init (router){
 					ErrorHelper.errorHandler(err, res);
 					res.json(sdc);
 				})
-			});
+			})
+			.options( function(req, res) {
+					console.log("OPTIONS");
+					res.json("");
+				});
 
 	router.route('/solicitudservicio/:id/solicitudcotizacion')
 		//crea una solicitud de cotizacion
