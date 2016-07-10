@@ -10,6 +10,7 @@ function init (router){
 			var sds = new SolicitudServicioModel();      // create a new instance of the taller model
 				sds.fecha_creacion = Date.now(),
 				sds.vehiculo       = req.body.vehiculo;
+				sds.direccion       = req.body.direccion;
 				sds.fecha_deseada  = req.body.fecha_deseada;
 				sds.user           = req.body.user._id;
 			// save the taller and check for errors
@@ -60,9 +61,11 @@ function init (router){
 		.put( function(req, res) {
 			SolicitudServicioModel.findById(req.params.id, function (err, sds) {
 			  ErrorHelper.errorHandler(err, res);
-				sds.vehiculo       = req.body.vehiculo;
-				sds.fecha_deseada  = req.body.fecha_deseada;
-			  sds.save(function (err) {
+				sds.vehiculo       = req.body.vehiculo||req.body.vehiculo.trim()!=''?req.body.vehiculo:sds.vehiculo;
+				sds.direccion      = req.body.direccion||req.body.direccion.trim()!=''?req.body.direccion:sds.direccion;
+				sds.fecha_deseada  = req.body.fecha_deseada||req.body.fecha_deseada.trim()!=''?req.body.fecha_deseada:sds.fecha_deseada;
+				sds.user           = req.body.user._id||req.body.user._id.trim()!=''?req.body.fecha_deseada:sds.user;
+				sds.save(function (err) {
 			    ErrorHelper.errorHandler(err, res);
 			    res.json(sds);
 			  });

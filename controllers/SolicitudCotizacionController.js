@@ -7,19 +7,26 @@ function init (router){
 
 	router.route('/solicitudcotizacion')
 		.get(  function(req, res){
-			SolicitudCotizacionModel.find().populate('taller').exec(function(err, sdc){
+			SolicitudCotizacionModel.find().populate('taller solicitud_servicio').exec(function(err, sdc){
 				ErrorHelper.errorHandler(err, res);
 
 				res.json(sdc);
 			})
 		});
 
+		router.route('/solicitudcotizacion/:id')
+			.get(  function(req, res){
+				SolicitudCotizacionModel.findById(req.params.id).populate('taller solicitud_servicio').exec(function(err, sdc){
+					ErrorHelper.errorHandler(err, res);
+					res.json(sdc);
+				})
+			});
 
 	router.route('/solicitudservicio/:id/solicitudcotizacion')
 		//crea una solicitud de cotizacion
 		.post(  function(req, res){
 				var sdc = new SolicitudCotizacionModel();
-				sdc.solicitudservicio =  req.params.id;
+				sdc.solicitud_servicio =  req.params.id;
 		    	sdc.estado = req.body.estado;
 		  		sdc.taller = req.body.taller._id;
 					console.log(req.body);
